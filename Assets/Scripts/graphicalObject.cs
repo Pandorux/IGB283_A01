@@ -28,7 +28,7 @@ public class graphicalObject : MonoBehaviour {
         // References the elements of vertices and colors to create a face
         mesh.triangles = new int[] { 0, 1, 2, 0, 2, 3 };
         mesh.triangles = new int[] { 0, 1, 2 };
-        mesh.triangles = ConstructTriangles(4);
+        mesh.triangles = ConstructTriangles(25);
     }
 
     Vector3[] ConstructVecticeArray()
@@ -63,11 +63,15 @@ public class graphicalObject : MonoBehaviour {
     {
         List<int> test = new List<int>();
 
-        for(int i = 0; i < xSize - 1; i++)
+        for(int i = 0, j = xSize; i < vertArrayLen - 1 && j < vertArrayLen - 1; i++, j++)
         {
             test.Add(i);
             test.Add(i + 1);
             test.Add(i + xSize);
+
+            test.Add(i + 1);
+            test.Add(j + 1);
+            test.Add(j);
         }
 
         return test.ToArray();
