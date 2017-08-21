@@ -17,41 +17,38 @@ public class graphicalObject : MonoBehaviour {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
         mesh.Clear();
 
-        mesh.vertices = new Vector3[]
-        {
-            new Vector3(0, 0, 0),
-            new Vector3(0, 1, 0),
-            new Vector3(1, 1, 0),
-            new Vector3(1, 0, 0)
-        };
+        mesh.vertices = ConstructVecticeArray();
 
-        mesh.colors = new Color[]
+        mesh.colors = new Color[mesh.vertices.Length];
+        for (int i = 0; i < mesh.vertices.Length; i++)
         {
-            new Color(0.8f, 0.3f, 1.0f),
-            new Color(0.8f, 0.3f, 1.0f),
-            new Color(0.8f, 0.3f, 1.0f),
-            new Color(0.8f, 0.3f, 1.0f)
-        };
+            mesh.colors[i] = new Color(0.8f, 0.3f, 1.0f);
+        }
 
         // References the elements of vertices and colors to create a face
         mesh.triangles = new int[] { 0, 1, 2, 0, 2, 3 };
         mesh.triangles = new int[] { 0, 1, 2 };
+        mesh.triangles = ConstructTriangles(4);
     }
 
-    Vector3[,] ConstructVecticeArray()
+    Vector3[] ConstructVecticeArray()
     {
-        Vector3[,] test = new Vector3[xSize, ySize];
+        List<Vector3>test = new List<Vector3>();
 
         for(int i = 0; i < xSize; i++)
         {
             for(int j = 0; j < ySize; j++)
             {
-                test[i, j] = new Vector3(i * 1, j * 1, 0);
-                // Debug.Log("Element " + i + j + " = " + test[i, j]);
+                test.Add(new Vector3(i * 1, j * 1, 0));
+
+                //foreach (Vector3 element in test)
+                //{
+                //    Debug.Log(element);
+                //}
             }
         }
 
-        return test;
+        return test.ToArray();
     }
 
     private void OnDrawGizmos()
@@ -62,8 +59,17 @@ public class graphicalObject : MonoBehaviour {
         }
     }
 
-    void ConstructTri()
+    int[] ConstructTriangles(int vertArrayLen)
     {
+        List<int> test = new List<int>();
 
+        for(int i = 0; i < xSize - 1; i++)
+        {
+            test.Add(i);
+            test.Add(i + 1);
+            test.Add(i + xSize);
+        }
+
+        return test.ToArray();
     }
 }
