@@ -8,7 +8,6 @@ public class graphicalObject : MonoBehaviour {
 
     public float rotSpeed;
     public int xSize, ySize;
-    //public Color[] objectCols;
 
     private Mesh mesh;
 
@@ -28,7 +27,12 @@ public class graphicalObject : MonoBehaviour {
         // References the elements of vertices and colors to create a face
         mesh.triangles = new int[] { 0, 1, 2, 0, 2, 3 };
         mesh.triangles = new int[] { 0, 1, 2 };
-        mesh.triangles = ConstructTriangles(25);
+        mesh.triangles = ConstructTriangles(mesh.vertices.Length);
+    }
+
+    void Update()
+    {
+
     }
 
     Vector3[] ConstructVecticeArray()
@@ -63,15 +67,19 @@ public class graphicalObject : MonoBehaviour {
     {
         List<int> test = new List<int>();
 
-        for(int i = 0, j = xSize; i < vertArrayLen - 1 && j < vertArrayLen - 1; i++, j++)
+        // Only works for Squares 
+        for(int i = 0, j = ySize; i < vertArrayLen - 1 && j < vertArrayLen - 1; i++, j++)
         {
-            test.Add(i);
-            test.Add(i + 1);
-            test.Add(i + xSize);
+            if((i + 1) % ySize != 0)
+            {
+                test.Add(i);
+                test.Add(i + 1);
+                test.Add(i + ySize);
 
-            test.Add(i + 1);
-            test.Add(j + 1);
-            test.Add(j);
+                test.Add(i + 1);
+                test.Add(j + 1);
+                test.Add(j);
+            }
         }
 
         return test.ToArray();
