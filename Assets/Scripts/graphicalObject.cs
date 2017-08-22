@@ -6,6 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer))]
 public class graphicalObject : MonoBehaviour {
 
+    /*
+    A third dimension(z) can easily be added to this code as part
+    of our extra feature.
+    */
+
     public float rotSpeed;
     public int xSize, ySize;
 
@@ -25,14 +30,7 @@ public class graphicalObject : MonoBehaviour {
         }
 
         // References the elements of vertices and colors to create a face
-        mesh.triangles = new int[] { 0, 1, 2, 0, 2, 3 };
-        mesh.triangles = new int[] { 0, 1, 2 };
         mesh.triangles = ConstructTriangles(mesh.vertices.Length);
-    }
-
-    void Update()
-    {
-
     }
 
     Vector3[] ConstructVecticeArray()
@@ -55,6 +53,7 @@ public class graphicalObject : MonoBehaviour {
         return test.ToArray();
     }
 
+    // Creates spheres on each location that a vertice will created in scene
     private void OnDrawGizmos()
     {
         foreach(Vector3 element in ConstructVecticeArray())
@@ -63,6 +62,7 @@ public class graphicalObject : MonoBehaviour {
         }
     }
 
+    // Creates faces based on the information in mesh.vertices
     int[] ConstructTriangles(int vertArrayLen)
     {
         List<int> test = new List<int>();

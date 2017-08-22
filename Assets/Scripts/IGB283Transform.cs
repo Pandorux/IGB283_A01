@@ -2,33 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class IGB283Transform {
+public class IGB283Transform : MonoBehaviour {
 
-    public static int x = 0;
-    public static int y = 1;
-    public static int z = 2;
+    public float movYSpeed = 5, movXSpeed = 5, rotSpeed = 5;
+    public float sizeScaleSpeed;
 
-
-    public static void TranslateTransform()
+    void Update()
     {
-        
+        TranslateTransform();
+        RotateTransform();
+        ScaleTransform();
     }
 
-    public static void RotateTransform(float angle, GameObject obj)
+    public void TranslateTransform()
     {
-        Vector3[] origVerts = obj.GetComponent<MeshFilter>().mesh.vertices;
-        Vector3[] newVerts = new Vector3[origVerts.Length];
-        rot = Quaternion.Euler(obj.transform.rotation.x, obj.transform.rotation.y, obj.transform.rotation.z);
-        Transform mat = obj.transform.Rotate(obj.transform.rotation.x, obj.transform.rotation.y, obj.transform.rotation.z);
-        Matrix4x4.Rotate
+        Vector3 pos = this.transform.position;
 
+        if(pos.x >= 1 || pos.x <= -1)
+        {
+            movXSpeed *= -1;
+        }
 
+        if (pos.y >= 1 || pos.y <= -1)
+        {
+            movYSpeed *= -1;
+        }
 
+        pos.x += Time.deltaTime * movXSpeed;
+        pos.y += Time.deltaTime * movYSpeed;
 
+        transform.position = pos;
     }
 
-    public static void ScaleTransform()
+    // TODO: Rotation affects position, thus, gameobject will be needed to be centred upon creation
+    public void RotateTransform()
     {
+        transform.Rotate(0, 0, rotSpeed * Time.deltaTime);
+    }
 
+    // TODO: Fix the scale flicker
+    public void ScaleTransform()
+    {
+        Vector3 sca = transform.localScale;
+
+        if(sca.x > 0.5 || sca.x <= 0.2)
+        {
+            sizeScaleSpeed *= -1;
+        }
+
+        sca.x += sizeScaleSpeed * Time.deltaTime;
+        sca.y += sizeScaleSpeed * Time.deltaTime;
+
+        transform.localScale = sca;
     }
 }
