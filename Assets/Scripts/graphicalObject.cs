@@ -11,9 +11,7 @@ public class graphicalObject : MonoBehaviour {
     of our extra feature.
     */
 
-    public float rotSpeed;
     public int xSize, ySize;
-
     private Mesh mesh;
 
     void Start()
@@ -36,12 +34,20 @@ public class graphicalObject : MonoBehaviour {
     Vector3[] ConstructVecticeArray()
     {
         List<Vector3>test = new List<Vector3>();
+        int xLoc;
+        int yLoc;
 
         for(int i = 0; i < xSize; i++)
         {
+            xLoc = (int)0 - xSize / 2;
+            xLoc += i;
+
             for(int j = 0; j < ySize; j++)
             {
-                test.Add(new Vector3(i * 1, j * 1, 0));
+                yLoc = (int)0 - ySize / 2;
+                yLoc += i;
+
+                test.Add(new Vector3(i, j, 0));
 
                 //foreach (Vector3 element in test)
                 //{
