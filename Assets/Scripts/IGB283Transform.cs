@@ -7,11 +7,6 @@ public class IGB283Transform : MonoBehaviour {
     public float movYSpeed = 5, movXSpeed = 5, rotSpeed = 5;
     public float sizeScaleSpeed;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         TranslateTransform();
@@ -22,14 +17,13 @@ public class IGB283Transform : MonoBehaviour {
     public void TranslateTransform()
     {
         Vector3 pos = this.transform.position;
-        Mesh mesh = gameObject.GetComponent<MeshFilter>().mesh;
 
-        if(mesh.bounds.extents.x >= 1 || -mesh.bounds.extents.x <= -1)
+        if(pos.x >= 1 || pos.x <= -1)
         {
             movXSpeed *= -1;
         }
 
-        if (mesh.bounds.extents.y >= 1 || -mesh.bounds.extents.y <= -1)
+        if (pos.y >= 1 || pos.y <= -1)
         {
             movYSpeed *= -1;
         }
