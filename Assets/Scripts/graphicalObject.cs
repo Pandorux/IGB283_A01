@@ -16,6 +16,8 @@ public class graphicalObject : MonoBehaviour {
 
     private Mesh mesh;
 
+
+
     void Start()
     {
         Mesh mesh = GetComponent<MeshFilter>().mesh;
@@ -36,12 +38,14 @@ public class graphicalObject : MonoBehaviour {
     Vector3[] ConstructVecticeArray()
     {
         List<Vector3>test = new List<Vector3>();
+        int iMax = int.Equals(xSize % 2, 0) ? Mathf.CeilToInt(xSize / 2) : Mathf.CeilToInt(xSize / 2) + 1;
+        int jMax = int.Equals(ySize % 2, 0) ? Mathf.CeilToInt(xSize / 2) : Mathf.CeilToInt(ySize / 2) + 1;
 
-        for(int i = 0; i < xSize; i++)
+        for (int i = -Mathf.CeilToInt(xSize / 2); i < iMax; i++)
         {
-            for(int j = 0; j < ySize; j++)
+            for(int j = -Mathf.CeilToInt(ySize / 2); j < jMax; j++)
             {
-                test.Add(new Vector3(i * 1, j * 1, 0));
+                test.Add(new Vector3(i, j, 0));
 
                 //foreach (Vector3 element in test)
                 //{
