@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class IGB283Transform : MonoBehaviour {
 
-    public float movYSpeed = 5, movXSpeed = 5, rotSpeed = 5;
-    public float sizeScaleSpeed;
+    public float movYSpeed = 1, movXSpeed = 1, rotSpeed = 15;
+    public float sizeScaleSpeed = 0.5f;
+    public float scaleUpperBound = 1.25f;
+    public float scaleLowerBound = 0.75f;
 
     void Update()
     {
@@ -18,12 +20,12 @@ public class IGB283Transform : MonoBehaviour {
     {
         Vector3 pos = this.transform.position;
 
-        if(pos.x >= 1 || pos.x <= -1)
+        if(pos.x <= -1 || pos.x >= 1)
         {
             movXSpeed *= -1;
         }
 
-        if (pos.y >= 1 || pos.y <= -1)
+        if (pos.y <= -1 || pos.y >= 1)
         {
             movYSpeed *= -1;
         }
@@ -45,7 +47,7 @@ public class IGB283Transform : MonoBehaviour {
     {
         Vector3 sca = transform.localScale;
 
-        if(sca.x > 0.5 || sca.x <= 0.2)
+        if(sca.x <= scaleLowerBound || sca.x > scaleUpperBound)
         {
             sizeScaleSpeed *= -1;
         }
