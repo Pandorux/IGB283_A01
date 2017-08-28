@@ -76,8 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameController.cs" />
+    <Compile Include="Assets\Scripts\GraphicalObject.cs" />
     <Compile Include="Assets\Scripts\IGB283Transform.cs" />
-    <Compile Include="Assets\Scripts\graphicalObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
