@@ -4,15 +4,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
-public class graphicalObject : MonoBehaviour {
+public class GraphicalObject : MonoBehaviour {
 
     /*
     A third dimension(z) can easily be added to this code as part
     of our extra feature.
     */
 
-    public float rotSpeed;
-    public int xSize, ySize;
+    public float rotSpeed = 1;
+    public int xSize = 5, ySize = 5;
 
     private Mesh mesh;
 
