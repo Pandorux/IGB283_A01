@@ -18,22 +18,31 @@ public class IGB283Transform : MonoBehaviour {
 
     public void TranslateTransform()
     {
-        Vector3 pos = this.transform.position;
+        //Vector3 pos = this.transform.position;
 
-        if(pos.x <= -1 || pos.x >= 1)
+        //if(pos.x <= -1 || pos.x >= 1)
+        //{
+        //    movXSpeed *= -1;
+        //}
+
+        //if (pos.y <= -1 || pos.y >= 1)
+        //{
+        //    movYSpeed *= -1;
+        //}
+
+        //pos.x += Time.deltaTime * movXSpeed;
+        //pos.y += Time.deltaTime * movYSpeed;
+
+        //transform.position = pos;
+
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+
+        Vector3[] verts = mesh.vertices;
+
+        foreach(Vector3 vert in verts)
         {
-            movXSpeed *= -1;
+
         }
-
-        if (pos.y <= -1 || pos.y >= 1)
-        {
-            movYSpeed *= -1;
-        }
-
-        pos.x += Time.deltaTime * movXSpeed;
-        pos.y += Time.deltaTime * movYSpeed;
-
-        transform.position = pos;
     }
 
     // TODO: Rotation affects position, thus, gameobject will be needed to be centred upon creation
@@ -57,4 +66,20 @@ public class IGB283Transform : MonoBehaviour {
 
         transform.localScale = sca;
     }
+
+    public void Translate(float xOffset, float yOffset, Matrix3x3 matrix)
+    {
+
+    }
+
+    public void Scale(float xScalar, float yScalar, Matrix3x3 matrix)
+    {
+
+    }
+
+    public void Rotate(float xOffset, float yOffset, Matrix3x3 matrix)
+    {
+
+    }
+
 }

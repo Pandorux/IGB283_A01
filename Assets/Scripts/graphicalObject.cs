@@ -4,6 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
+[RequireComponent(typeof(ColourLerp))]
 public class GraphicalObject : MonoBehaviour {
 
     /*
@@ -15,7 +16,6 @@ public class GraphicalObject : MonoBehaviour {
     public int xSize = 5, ySize = 5;
 
     private Mesh mesh;
-
 
 
     void Start()

@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
         {
             gameObjArray[i] = new GameObject();
 
-            // Add all the scripts
+            // Add scripts to gameobjects
             gameObjArray[i].AddComponent<GraphicalObject>();
             gameObjArray[i].AddComponent<IGB283Transform>();
 
