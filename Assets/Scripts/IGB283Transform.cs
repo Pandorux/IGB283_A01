@@ -67,19 +67,32 @@ public class IGB283Transform : MonoBehaviour {
         transform.localScale = sca;
     }
 
-    public void Translate(float xOffset, float yOffset, Matrix3x3 matrix)
+    public Matrix3x3 Translate(float xOffset, float yOffset, Matrix3x3 matrix)
     {
+        Matrix3x3 m = matrix;
+        Vector3 v = matrix.GetColumn(2);
 
+        v.Set(v.x + xOffset, v.y + yOffset, v.z);
+        m.SetColumn(2, v);
+        return m;
     }
 
-    public void Scale(float xScalar, float yScalar, Matrix3x3 matrix)
+    public Matrix3x3 Scale(float xScalar, float yScalar, Matrix3x3 matrix)
     {
+        Matrix3x3 m = matrix;
+        float[] arr = new float[3];
 
+        //for(int i = 0; i < 3; i++)
+        //{
+
+        //}
+
+        return new Matrix3x3();
     }
 
-    public void Rotate(float xOffset, float yOffset, Matrix3x3 matrix)
+    public Matrix3x3 Rotate(float xOffset, float yOffset, Matrix3x3 matrix)
     {
-
+        return new Matrix3x3();
     }
 
 }

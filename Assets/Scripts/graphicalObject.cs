@@ -33,6 +33,7 @@ public class GraphicalObject : MonoBehaviour {
 
         // References the elements of vertices and colors to create a face
         mesh.triangles = ConstructTriangles(mesh.vertices.Length);
+        ConstructTriangleMatrixArray(mesh);
     }
 
     Vector3[] ConstructVecticeArray()
@@ -87,5 +88,21 @@ public class GraphicalObject : MonoBehaviour {
         }
 
         return test.ToArray();
+    }
+
+    Matrix3x3[] ConstructTriangleMatrixArray(Mesh mesha)
+    {
+        Matrix3x3[] m = new Matrix3x3[(int)mesha.triangles.Length / 3];
+
+        for(int i = 0; i < m.Length; i++)
+        {
+            m[i] = new Matrix3x3(mesha.vertices[mesha.triangles[(i * 3)]], mesha.vertices[mesha.triangles[(i * 3)+1]], mesha.vertices[mesha.triangles[(i * 3) + 2]]);
+            Debug.Log("Total Verts: " + mesha.vertices.Length);
+            Debug.Log("Total Tris: " + mesha.triangles.Length);
+            Debug.Log("Total matrix" + m.Length);
+            Debug.Log("Tri " + i + ": Vert{" + (i * 3) + "}, Vert{" + ((i * 3) + 1) + "}, Vert{" + ((i * 3) + 2) + "}");
+        }
+
+        return m;
     }
 }
