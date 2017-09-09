@@ -7,16 +7,11 @@ using UnityEngine;
 [RequireComponent(typeof(ColourLerp))]
 public class GraphicalObject : MonoBehaviour {
 
-    /*
-    A third dimension(z) can easily be added to this code as part
-    of our extra feature.
-    */
-
     public float rotSpeed = 1;
     public float xSpeed = 1, ySpeed = 1;
     public int xSize = 5, ySize = 5;
     public float xScalar = 0.25f, yScalar = 0.25f;
-    public Color32 colour00 = new Color32(0, 0, 0, 1), colour01 = new Color32(255, 255, 255, 1);
+    public Color32 colour00 = new Color32(0, 0, 0, 255), colour01 = new Color32(255, 255, 255, 255);
 
     public Quaternion initialScale = new Quaternion (1, 1, 1, 1);
     public Vector3 initialPosition = new Vector3(0, 0, 0);
@@ -55,6 +50,7 @@ public class GraphicalObject : MonoBehaviour {
 
         mesh.vertices = verts;
         mesh.RecalculateBounds();
+        this.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Color");
     }
 
     void Update()
@@ -68,14 +64,10 @@ public class GraphicalObject : MonoBehaviour {
         M = M * T;
 
         Vector3[] verts = mesh.vertices;
-        Color32[] cols = mesh.colors32;
 
         for (int i = 0; i < verts.Length; i++)
         {
             Vector3 v = M.MultiplyPoint(verts[i]);
-
-            Color32 vertCol = Color32.Lerp(colour00, colour01, v.x);
-            cols[i] = vertCol;
 
             verts[i].x = v.x;
             verts[i].y = v.y;
@@ -101,6 +93,8 @@ public class GraphicalObject : MonoBehaviour {
 
         mesh.vertices = verts;
         mesh.RecalculateBounds();
+        Color32 col = Color32.Lerp(colour00, colour01, Mathf.Clamp(rotOrigin.x, -0.5f, 0.5f) * 2);
+        this.GetComponent<MeshRenderer>().material.color = col;
 
     }
 
