@@ -20,14 +20,6 @@ public class GameController : MonoBehaviour
 
             // Add scripts to gameobjects
             gameObjArray[i].AddComponent<GraphicalObject>();
-
-            // Set the size scale, rotational speed and movement speed
-            IGB283Transform tran = gameObjArray[i].GetComponent<IGB283Transform>();
-
-            tran.rotSpeed = (i + 1) * 20;
-            tran.sizeScaleSpeed = (float)(i + 1) / 4;
-            tran.movXSpeed = (i + 1) * 1.25f;
-            tran.movYSpeed = 0;
         }
     }
 }

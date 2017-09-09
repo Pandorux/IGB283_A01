@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(ColourLerp))]
-[RequireComponent(typeof(Material))]
 public class GraphicalObject : MonoBehaviour {
 
     /*
@@ -67,19 +66,17 @@ public class GraphicalObject : MonoBehaviour {
         Matrix3x3 R = IGB283Transform.Rotate(rotSpeed * Time.deltaTime);
         Matrix3x3 M = T3 * R * T2;
         M = M * T;
+        float sum = 0;
 
         Vector3[] verts = mesh.vertices;
-        Color32[] cols = mesh.colors32;
 
         for (int i = 0; i < verts.Length; i++)
         {
             Vector3 v = M.MultiplyPoint(verts[i]);
 
-            Color32 vertCol = Color32.Lerp(colour00, colour01, v.x);
-            cols[i] = vertCol;
-
             verts[i].x = v.x;
             verts[i].y = v.y;
+            sum += Mathf.Abs(v.x);
 
             if (verts[i].x >= 1)
             {
@@ -99,10 +96,14 @@ public class GraphicalObject : MonoBehaviour {
                 ySpeed = Mathf.Abs(ySpeed);
             }
         }
-        
+
+        sum /= verts.Length;
+        sum = Mathf.Clamp(sum, 0, 1);
+        Debug.Log(sum);
         mesh.vertices = verts;
-        mesh.colors32 = cols;
         mesh.RecalculateBounds();
+        Color32 col = Color32.Lerp(colour00, colour01, Mathf.Clamp(sum, 0, 1));
+        this.GetComponent<MeshRenderer>().material.color = col;
 
     }
 
