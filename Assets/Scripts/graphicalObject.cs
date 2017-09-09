@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(ColourLerp))]
+[RequireComponent(typeof(Material))]
 public class GraphicalObject : MonoBehaviour {
 
     /*
@@ -16,7 +17,7 @@ public class GraphicalObject : MonoBehaviour {
     public float xSpeed = 1, ySpeed = 1;
     public int xSize = 5, ySize = 5;
     public float xScalar = 0.25f, yScalar = 0.25f;
-    public Color32 colour00 = new Color32(0, 0, 0, 1), colour01 = new Color32(255, 255, 255, 1);
+    public Color32 colour00 = new Color32(0, 0, 0, 255), colour01 = new Color32(255, 255, 255, 255);
 
     public Quaternion initialScale = new Quaternion (1, 1, 1, 1);
     public Vector3 initialPosition = new Vector3(0, 0, 0);
@@ -98,8 +99,9 @@ public class GraphicalObject : MonoBehaviour {
                 ySpeed = Mathf.Abs(ySpeed);
             }
         }
-
+        
         mesh.vertices = verts;
+        mesh.colors32 = cols;
         mesh.RecalculateBounds();
 
     }
