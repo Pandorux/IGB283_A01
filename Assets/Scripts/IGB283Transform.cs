@@ -11,9 +11,9 @@ public class IGB283Transform : MonoBehaviour {
 
     void Update()
     {
-        TranslateTransform();
-        RotateTransform();
-        ScaleTransform();
+        //TranslateTransform();
+        //RotateTransform();
+        //ScaleTransform();
     }
 
     public void TranslateTransform()
@@ -67,32 +67,37 @@ public class IGB283Transform : MonoBehaviour {
         transform.localScale = sca;
     }
 
-    public Matrix3x3 Translate(float xOffset, float yOffset, Matrix3x3 matrix)
+    public static Matrix3x3 Translate(Vector3 offset)
     {
-        Matrix3x3 m = matrix;
-        Vector3 v = matrix.GetColumn(2);
+        Matrix3x3 m = new Matrix3x3();
 
-        v.Set(v.x + xOffset, v.y + yOffset, v.z);
-        m.SetColumn(2, v);
+        m.SetRow(0, new Vector3(1.0f, 0.0f, offset.x));
+        m.SetRow(1, new Vector3(0.0f, 1.0f, offset.y));
+        m.SetRow(2, new Vector3(0.0f, 0.0f, 1.0f));
+
         return m;
     }
 
-    public Matrix3x3 Scale(float xScalar, float yScalar, Matrix3x3 matrix)
+    public static Matrix3x3 Scale(Quaternion scale)
     {
-        Matrix3x3 m = matrix;
-        float[] arr = new float[3];
+        Matrix3x3 m = new Matrix3x3();
 
-        //for(int i = 0; i < 3; i++)
-        //{
+        m.SetRow(0, new Vector3(scale.x, 0.0f, 0.0f));
+        m.SetRow(1, new Vector3(0.0f, scale.y, 0.0f));
+        m.SetRow(2, new Vector3(0.0f, 0.0f, 1.0f));
 
-        //}
-
-        return new Matrix3x3();
+        return m;
     }
 
-    public Matrix3x3 Rotate(float xOffset, float yOffset, Matrix3x3 matrix)
+    public static Matrix3x3 Rotate(float angle)
     {
-        return new Matrix3x3();
-    }
 
+        Matrix3x3 m = new Matrix3x3();
+
+        m.SetRow(0, new Vector3(Mathf.Cos(angle), -Mathf.Sin(angle), 0.0f));
+        m.SetRow(1, new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 0.0f));
+        m.SetRow(2, new Vector3(0.0f, 0.0f, 1.0f));
+
+        return m;
+    }
 }

@@ -20,7 +20,6 @@ public class GameController : MonoBehaviour
 
             // Add scripts to gameobjects
             gameObjArray[i].AddComponent<GraphicalObject>();
-            gameObjArray[i].AddComponent<IGB283Transform>();
 
             // Set the size scale, rotational speed and movement speed
             IGB283Transform tran = gameObjArray[i].GetComponent<IGB283Transform>();
