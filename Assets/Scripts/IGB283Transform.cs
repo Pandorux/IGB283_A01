@@ -24,7 +24,6 @@ public class IGB283Transform : MonoBehaviour {
 
         mesh.vertices = TranslateMesh(m, verts);
         mesh.RecalculateBounds();
-        this.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Color");
     }
 
     void Update()
