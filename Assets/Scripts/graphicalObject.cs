@@ -7,11 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(ColourLerp))]
 public class GraphicalObject : MonoBehaviour {
 
-    /*
-    A third dimension(z) can easily be added to this code as part
-    of our extra feature.
-    */
-
     public float rotSpeed = 1;
     public float xSpeed = 1, ySpeed = 1;
     public int xSize = 5, ySize = 5;
@@ -55,6 +50,7 @@ public class GraphicalObject : MonoBehaviour {
 
         mesh.vertices = verts;
         mesh.RecalculateBounds();
+        this.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Color");
     }
 
     void Update()
@@ -66,7 +62,6 @@ public class GraphicalObject : MonoBehaviour {
         Matrix3x3 R = IGB283Transform.Rotate(rotSpeed * Time.deltaTime);
         Matrix3x3 M = T3 * R * T2;
         M = M * T;
-        float sum = 0;
 
         Vector3[] verts = mesh.vertices;
 
@@ -76,7 +71,6 @@ public class GraphicalObject : MonoBehaviour {
 
             verts[i].x = v.x;
             verts[i].y = v.y;
-            sum += Mathf.Abs(v.x);
 
             if (verts[i].x >= 1)
             {
@@ -97,12 +91,9 @@ public class GraphicalObject : MonoBehaviour {
             }
         }
 
-        sum /= verts.Length;
-        sum = Mathf.Clamp(sum, 0, 1);
-        Debug.Log(sum);
         mesh.vertices = verts;
         mesh.RecalculateBounds();
-        Color32 col = Color32.Lerp(colour00, colour01, Mathf.Clamp(sum, 0, 1));
+        Color32 col = Color32.Lerp(colour00, colour01, Mathf.Clamp(rotOrigin.x, -0.5f, 0.5f) * 2);
         this.GetComponent<MeshRenderer>().material.color = col;
 
     }
