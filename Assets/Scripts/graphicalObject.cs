@@ -9,7 +9,6 @@ using UnityEngine;
 public class GraphicalObject : MonoBehaviour {
 
     public int xSize = 5, ySize = 5;
-    public Color32 colour00 = new Color32(0, 0, 0, 255), colour01 = new Color32(255, 255, 255, 255);
 
     private Mesh mesh;
     private Vector3 rotOrigin;
@@ -29,11 +28,6 @@ public class GraphicalObject : MonoBehaviour {
 
         // References the elements of vertices and colors to create a face
         mesh.triangles = ConstructTriangles(mesh.vertices.Length);
-    }
-
-    void Update()
-    {
-
     }
 
     Vector3[] ConstructVecticeArray()
@@ -88,11 +82,5 @@ public class GraphicalObject : MonoBehaviour {
         }
 
         return test.ToArray();
-    }
-
-    void UpdateColour(Vector3 meshCentre)
-    {
-        Color32 col = Color32.Lerp(colour00, colour01, Mathf.Clamp(meshCentre.x, -0.5f, 0.5f) * 2);
-        this.GetComponent<MeshRenderer>().material.color = col;
     }
 }
