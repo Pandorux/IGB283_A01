@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class IGB283Transform {
 
-    public static Matrix3x3 Translate(Vector3 offset)
+    public static Matrix3x3 TransMatrix(Vector3 offset)
     {
         Matrix3x3 m = new Matrix3x3();
 
@@ -15,7 +15,7 @@ public static class IGB283Transform {
         return m;
     }
 
-    public static Matrix3x3 Scale(Quaternion scale)
+    public static Matrix3x3 ScaleMatrix(Quaternion scale)
     {
         Matrix3x3 m = new Matrix3x3();
 
@@ -26,7 +26,7 @@ public static class IGB283Transform {
         return m;
     }
 
-    public static Matrix3x3 Rotate(float angle)
+    public static Matrix3x3 RotMatrix(float angle)
     {
 
         Matrix3x3 m = new Matrix3x3();

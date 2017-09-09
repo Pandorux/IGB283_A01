@@ -35,8 +35,8 @@ public class GraphicalObject : MonoBehaviour {
         // References the elements of vertices and colors to create a face
         mesh.triangles = ConstructTriangles(mesh.vertices.Length);
 
-        Matrix3x3 T = IGB283Transform.Translate(initialPosition);
-        Matrix3x3 S = IGB283Transform.Scale(initialScale);
+        Matrix3x3 T = IGB283Transform.TransMatrix(initialPosition);
+        Matrix3x3 S = IGB283Transform.ScaleMatrix(initialScale);
         Matrix3x3 M = T * S;
         Vector3[] verts = mesh.vertices;
 
@@ -56,46 +56,13 @@ public class GraphicalObject : MonoBehaviour {
     void Update()
     {
         rotOrigin = this.GetComponent<MeshRenderer>().bounds.center;
-        Matrix3x3 T = IGB283Transform.Translate(new Vector3 (xSpeed * Time.deltaTime, ySpeed * Time.deltaTime, 1));
-        Matrix3x3 T2 = IGB283Transform.Translate(-rotOrigin);
-        Matrix3x3 T3 = IGB283Transform.Translate(rotOrigin);
-        Matrix3x3 R = IGB283Transform.Rotate(rotSpeed * Time.deltaTime);
-        Matrix3x3 M = T3 * R * T2;
-        M = M * T;
+        Matrix3x3 t = IGB283Transform.TransMatrix(new Vector3 (xSpeed * Time.deltaTime, ySpeed * Time.deltaTime, 1));
+        Matrix3x3 m = Rotate(rotOrigin, rotSpeed);
+        m = m * t;
 
-        Vector3[] verts = mesh.vertices;
-
-        for (int i = 0; i < verts.Length; i++)
-        {
-            Vector3 v = M.MultiplyPoint(verts[i]);
-
-            verts[i].x = v.x;
-            verts[i].y = v.y;
-
-            if (verts[i].x >= 1)
-            {
-                xSpeed = -Mathf.Abs(xSpeed);
-            }
-            else if(verts[i].x <= -1)
-            {
-                xSpeed = Mathf.Abs(xSpeed);
-            }
-
-            if (verts[i].y >= 1)
-            {
-                ySpeed = -Mathf.Abs(ySpeed);
-            }
-            else if (verts[i].y <= -1)
-            {
-                ySpeed = Mathf.Abs(ySpeed);
-            }
-        }
-
-        mesh.vertices = verts;
+        mesh.vertices = TranslateMesh(m, mesh.vertices);
         mesh.RecalculateBounds();
-        Color32 col = Color32.Lerp(colour00, colour01, Mathf.Clamp(rotOrigin.x, -0.5f, 0.5f) * 2);
-        this.GetComponent<MeshRenderer>().material.color = col;
-
+        UpdateColour(rotOrigin);
     }
 
     Vector3[] ConstructVecticeArray()
@@ -152,19 +119,53 @@ public class GraphicalObject : MonoBehaviour {
         return test.ToArray();
     }
 
-    Matrix3x3[] ConstructTriangleMatrixArray(Mesh mesha)
+    Matrix3x3 Rotate(Vector3 originRot, float angle)
     {
-        Matrix3x3[] m = new Matrix3x3[(int)mesha.triangles.Length / 3];
+        Matrix3x3 originNeg = IGB283Transform.TransMatrix(-rotOrigin);
+        Matrix3x3 origin = IGB283Transform.TransMatrix(rotOrigin);
+        Matrix3x3 r = IGB283Transform.RotMatrix(rotSpeed * Time.deltaTime);
+        Matrix3x3 m = origin * r * originNeg;
+        return m;
+    }
 
-        for(int i = 0; i < m.Length; i++)
+    Vector3[] TranslateMesh(Matrix3x3 trans, Vector3[] verts)
+    {
+
+        for (int i = 0; i < verts.Length; i++)
         {
-            m[i] = new Matrix3x3(mesha.vertices[mesha.triangles[(i * 3)]], mesha.vertices[mesha.triangles[(i * 3)+1]], mesha.vertices[mesha.triangles[(i * 3) + 2]]);
-            //Debug.Log("Total Verts: " + mesha.vertices.Length);
-            //Debug.Log("Total Tris: " + mesha.triangles.Length);
-            //Debug.Log("Total matrix" + m.Length);
-            //Debug.Log("Tri " + i + ": Vert{" + (i * 3) + "}, Vert{" + ((i * 3) + 1) + "}, Vert{" + ((i * 3) + 2) + "}");
+            Vector3 v = trans.MultiplyPoint(verts[i]);
+            ChangeDirection(v.x, v.y);
+            verts[i].x = v.x;
+            verts[i].y = v.y;
         }
 
-        return m;
+        return verts;
+    }
+
+    void ChangeDirection(float xLoc, float yLoc)
+    {
+        if (xLoc >= 1)
+        {
+            xSpeed = -Mathf.Abs(xSpeed);
+        }
+        else if (xLoc <= -1)
+        {
+            xSpeed = Mathf.Abs(xSpeed);
+        }
+
+        if (yLoc >= 1)
+        {
+            ySpeed = -Mathf.Abs(ySpeed);
+        }
+        else if (yLoc <= -1)
+        {
+            ySpeed = Mathf.Abs(ySpeed);
+        }
+    }
+
+    void UpdateColour(Vector3 meshCentre)
+    {
+        Color32 col = Color32.Lerp(colour00, colour01, Mathf.Clamp(meshCentre.x, -0.5f, 0.5f) * 2);
+        this.GetComponent<MeshRenderer>().material.color = col;
     }
 }
