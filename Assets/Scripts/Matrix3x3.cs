@@ -136,7 +136,7 @@ public class Matrix3x3
     private List<Vector3> m = new List<Vector3>();
 
     // Create a matrix 3x3 with specified values
-    private Matrix3x3(Vector3 r1, Vector3 r2, Vector3 r3)
+    public Matrix3x3(Vector3 r1, Vector3 r2, Vector3 r3)
     {
         m.Add(r1);
         m.Add(r2);
