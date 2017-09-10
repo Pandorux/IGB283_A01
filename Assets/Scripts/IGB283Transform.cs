@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(MeshFilter))]
 public class IGB283Transform : MonoBehaviour {
 
     public float rotSpeed = 1;
     public float xSpeed = 1, ySpeed = 1;
-    public float xScaSpeed = 0.25f, yScaSpeed = 0.25f;
-    public Quaternion initialScale = new Quaternion(1, 1, 1, 1);
+    //public float xScaSpeed = 0.25f, yScaSpeed = 0.25f;
+    public Vector3 initialScale = new Vector3(0.5f, 0.5f, 1);
     public Vector3 initialPosition = new Vector3(0, 0, 0);
 
     private Mesh mesh;
@@ -18,23 +17,36 @@ public class IGB283Transform : MonoBehaviour {
         mesh = this.GetComponent<MeshFilter>().mesh;
 
         Matrix3x3 t = TransMatrix(initialPosition);
+        Debug.Log("Trans Matrix: " + t);
         Matrix3x3 s = ScaleMatrix(initialScale);
+        Debug.Log("Scale Matrix: " + s);
         Matrix3x3 m = t * s;
+        Debug.Log("Inital Matrix: " + m);
         Vector3[] verts = mesh.vertices;
 
-        mesh.vertices = TranslateMesh(m, verts);
+        for (int i = 0; i < verts.Length; i++)
+        {
+            Vector3 v = s.MultiplyPoint(verts[i]);
+
+            verts[i].x = v.x;
+            verts[i].y = v.y;
+
+            ChangeDirection(v.x, v.y);
+        }
+
+        mesh.vertices = verts;//TranslateMesh(m, verts);
         mesh.RecalculateBounds();
     }
 
     void Update()
     {
-        Vector3 rotOrigin = this.GetComponent<MeshRenderer>().bounds.center;
-        Matrix3x3 t = TransMatrix(new Vector3(xSpeed * Time.deltaTime, ySpeed * Time.deltaTime, 1));
-        Matrix3x3 m = CalculateRotatation(rotOrigin, rotSpeed);
-        m = m * t;
+        //Vector3 rotOrigin = this.GetComponent<MeshRenderer>().bounds.center;
+        //Matrix3x3 t = TransMatrix(new Vector3(xSpeed * Time.deltaTime, ySpeed * Time.deltaTime, 1));
+        //Matrix3x3 m = CalculateRotation(rotOrigin, rotSpeed);
+        //m = m * t;
 
-        mesh.vertices = TranslateMesh(m, mesh.vertices);
-        mesh.RecalculateBounds();
+        //mesh.vertices = TranslateMesh(m, mesh.vertices);
+        //mesh.RecalculateBounds();
     }
 
     public Matrix3x3 TransMatrix(Vector3 offset)
@@ -48,7 +60,7 @@ public class IGB283Transform : MonoBehaviour {
         return m;
     }
 
-    public Matrix3x3 ScaleMatrix(Quaternion scale)
+    public Matrix3x3 ScaleMatrix(Vector3 scale)
     {
         Matrix3x3 m = new Matrix3x3();
 
@@ -71,7 +83,7 @@ public class IGB283Transform : MonoBehaviour {
         return m;
     }
 
-    Matrix3x3 CalculateRotatation(Vector3 originRot, float angle)
+    Matrix3x3 CalculateRotation(Vector3 originRot, float angle)
     {
         Matrix3x3 originNeg = TransMatrix(-originRot);
         Matrix3x3 origin = TransMatrix(originRot);
@@ -82,13 +94,15 @@ public class IGB283Transform : MonoBehaviour {
 
     Vector3[] TranslateMesh(Matrix3x3 trans, Vector3[] verts)
     {
-
+        Debug.Log("Att Matrix: " + trans);
         for (int i = 0; i < verts.Length; i++)
         {
             Vector3 v = trans.MultiplyPoint(verts[i]);
-            ChangeDirection(v.x, v.y);
+
             verts[i].x = v.x;
             verts[i].y = v.y;
+
+            ChangeDirection(v.x, v.y);
         }
 
         return verts;
