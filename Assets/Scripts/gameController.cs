@@ -18,13 +18,11 @@ public class GameController : MonoBehaviour
     public float minRotSpeed = 2.5f;
     public float maxRotSpeed = 25;
 
-    // Use this for initialization
     void Awake()
     {
-        // Container
         GameObject[] gameObjArray = new GameObject[numberOfGameObjects];
 
-        // Add the components
+        // Add the components and updates their values.
         for (int i = 0; i < gameObjArray.Length; i++)
         {
             gameObjArray[i] = new GameObject();

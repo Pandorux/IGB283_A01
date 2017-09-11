@@ -11,19 +11,15 @@ public class IGB283Transform : MonoBehaviour {
     public Vector3 initialPosition = new Vector3(0, 0, 0);
 
     private Mesh mesh;
-    private bool changeScale;
 
     void Start()
     {
         mesh = this.GetComponent<MeshFilter>().mesh;
-        changeScale = true;
 
+        // Sets the initial pos and scale of mesh.
         Matrix3x3 t = TransMatrix(initialPosition);
-        Debug.Log("Trans Matrix: " + t);
         Matrix3x3 s = ScaleMatrix(initialScale);
-        Debug.Log("Scale Matrix: " + s);
         Matrix3x3 m = t * s;
-        Debug.Log("Inital Matrix: " + m);
         Vector3[] verts = mesh.vertices;
 
         mesh.vertices = TranslateMesh(m, verts);
@@ -42,6 +38,7 @@ public class IGB283Transform : MonoBehaviour {
         mesh.RecalculateBounds();
     }
 
+    // Creates a Translational Matrix.
     public Matrix3x3 TransMatrix(Vector3 offset)
     {
         Matrix3x3 m = new Matrix3x3();
@@ -53,6 +50,7 @@ public class IGB283Transform : MonoBehaviour {
         return m;
     }
 
+    // Creates a Scale Matrix.
     public Matrix3x3 ScaleMatrix(Vector3 scale)
     {
         Matrix3x3 m = new Matrix3x3();
@@ -64,6 +62,7 @@ public class IGB283Transform : MonoBehaviour {
         return m;
     }
 
+    // Creates a Rotation Matrix.
     public Matrix3x3 RotMatrix(float angle)
     {
 
@@ -76,6 +75,7 @@ public class IGB283Transform : MonoBehaviour {
         return m;
     }
 
+    // Uses T-1, R, T to calculate the position of the matrix.
     Matrix3x3 CalculateRotation(Vector3 originRot, float angle)
     {
         Matrix3x3 originNeg = TransMatrix(-originRot);
@@ -85,9 +85,9 @@ public class IGB283Transform : MonoBehaviour {
         return m;
     }
 
+    // Updates the position of each vert within the mesh.
     Vector3[] TranslateMesh(Matrix3x3 trans, Vector3[] verts)
     {
-        Debug.Log("Att Matrix: " + trans);
         for (int i = 0; i < verts.Length; i++)
         {
             Vector3 v = trans.MultiplyPoint(verts[i]);
@@ -101,6 +101,7 @@ public class IGB283Transform : MonoBehaviour {
         return verts;
     }
 
+    // Ensures that the mesh stays approximately within the positional bounds.
     void ChangeDirection(float xLoc, float yLoc)
     {
         if (xLoc >= 1)
