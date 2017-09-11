@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour
         {
             gameObjArray[i] = new GameObject();
             gameObjArray[i].AddComponent<GraphicalObject>();
+            gameObjArray[i].AddComponent<IGB283Transform>();
 
             GraphicalObject gra = new GraphicalObject(); 
             gra.xSize = Random.Range(minVerts, maxVerts);
@@ -36,7 +37,7 @@ public class GameController : MonoBehaviour
 
             IGB283Transform trans = gameObjArray[i].GetComponent<IGB283Transform>();
             trans.initialPosition = new Vector3(Random.Range(-posRange, posRange), Random.Range(-posRange, posRange), 0);
-            //trans.initialScale = new Vector3(Random.Range(-minSize, maxSize), Random.Range(-minSize, maxSize));
+            trans.initialScale = new Vector3(Random.Range(minSize, maxSize), Random.Range(minSize, maxSize), 1);
             trans.xSpeed = Random.Range(minMovSpeed, maxMovSpeed);
             trans.ySpeed = Random.Range(minMovSpeed, maxMovSpeed);
             trans.rotSpeed = Random.Range(minRotSpeed, maxRotSpeed);

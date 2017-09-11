@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(ColourLerp))]
-[RequireComponent(typeof(IGB283Transform))]
 public class GraphicalObject : MonoBehaviour {
 
     public int xSize = 5, ySize = 5;
