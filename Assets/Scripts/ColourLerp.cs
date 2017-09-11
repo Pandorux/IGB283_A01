@@ -2,25 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshRenderer))]
 public class ColourLerp : MonoBehaviour {
 
-    public Color32[] colours = new Color32[] {
-        new Color32 (0, 0, 0, 0),
-        new Color32 (255, 255, 255, 0)
-    };
+    public Color32 colour00 = new Color32(0, 0, 0, 0), colour01 = new Color32(255, 255, 255, 255);
 
-	// Use this for initialization
+
 	void Start () {
-		
-	}
+        this.GetComponent<MeshRenderer>().material.shader = Shader.Find("Unlit/Color");
+    }
 	
-	// Update is called once per frame
+
 	void Update () {
-		
+        Vector3 meshOrigin = this.GetComponent<MeshRenderer>().bounds.center;
+        UpdateColour(meshOrigin);
 	}
 
-    public Color32 ColourStep()
+    public Color32 ColourStep(Vector3 meshCentre)
     {
-        return new Color32 (0, 0, 0, 0);
+        return Color32.Lerp(colour00, colour01, Mathf.Clamp(meshCentre.x, -0.5f, 0.5f) * 2);
+    }
+
+    void UpdateColour(Vector3 meshCentre)
+    {       
+        this.GetComponent<MeshRenderer>().material.color = ColourStep(meshCentre);
     }
 }
