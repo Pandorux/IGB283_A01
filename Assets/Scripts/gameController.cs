@@ -18,9 +18,27 @@ public class GameController : MonoBehaviour
     public float minRotSpeed = 2.5f;
     public float maxRotSpeed = 25;
 
+    private float xSpeedChange;
+
+    // Code not needed for the Assignment
+        /*
+        private float ySpeedChange;
+        private float rotSpeedChange;
+        */
+
+    private GameObject[] gameObjArray;
+
     void Awake()
     {
-        GameObject[] gameObjArray = new GameObject[numberOfGameObjects];
+        xSpeedChange = xSpeedChange == 0 ? xSpeedChange / 0.1f : 0;
+
+        // Code not needed for the Assignment 
+            /*
+            ySpeedChange = ySpeedChange == 0 ? ySpeedChange / 0.1f : 0;
+            rotSpeedChange = rotSpeedChange == 0 ? rotSpeedChange / 0.1f : 0;
+            */
+
+        gameObjArray = new GameObject[numberOfGameObjects];
 
         // Add the components and updates their values.
         for (int i = 0; i < gameObjArray.Length; i++)
@@ -46,4 +64,31 @@ public class GameController : MonoBehaviour
            
         }
     }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            ChangeGameobjectMoveSpeed();
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            ChangeGameobjectMoveSpeed();
+        }
+    }
+
+    void ChangeGameobjectMoveSpeed()
+    {
+        foreach (GameObject obj in gameObjArray)
+        {
+            obj.GetComponent<IGB283Transform>().xSpeed += xSpeedChange;
+
+            // Code not needed for the Assignment 
+                /*
+                obj.GetComponent<IGB283Transform>().ySpeed += ySpeedChange;
+                obj.GetComponent<IGB283Transform>().rotSpeed += rotSpeedChange;
+                */
+        }
+    }
+
 }
