@@ -5,8 +5,7 @@ using UnityEngine;
 public class IGB283Transform : MonoBehaviour {
 
     public float rotSpeed = 1;
-    public float xSpeed = 1, ySpeed = 1;
-    //public float xScaSpeed = 0.25f, yScaSpeed = 0.25f;
+    public float xSpeed = 1;
     public Vector3 initialScale = new Vector3(0.1f, 0.1f, 1);
     public Vector3 initialPosition = new Vector3(0, 0, 0);
 
@@ -30,11 +29,12 @@ public class IGB283Transform : MonoBehaviour {
     {
 
         Vector3 rotOrigin = this.GetComponent<MeshRenderer>().bounds.center;
-        Matrix3x3 t = TransMatrix(new Vector3(xSpeed * Time.deltaTime, ySpeed * Time.deltaTime, 1));
-        Matrix3x3 m = CalculateRotation(rotOrigin, rotSpeed);
-        m = m * t;
+        Matrix3x3 t = TransMatrix(new Vector3(xSpeed * Time.deltaTime, 0, 0));
+        Matrix3x3 r = CalculateRotation(rotOrigin, rotSpeed);
 
-        mesh.vertices = TranslateMesh(m, mesh.vertices);
+        mesh.vertices = TranslateMesh(r, mesh.vertices);
+        mesh.vertices = TranslateMesh(t, mesh.vertices);
+
         mesh.RecalculateBounds();
     }
 
@@ -113,13 +113,5 @@ public class IGB283Transform : MonoBehaviour {
             xSpeed = Mathf.Abs(xSpeed);
         }
 
-        if (yLoc >= 1)
-        {
-            ySpeed = -Mathf.Abs(ySpeed);
-        }
-        else if (yLoc <= -1)
-        {
-            ySpeed = Mathf.Abs(ySpeed);
-        }
     }
 }

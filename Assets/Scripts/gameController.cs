@@ -18,26 +18,16 @@ public class GameController : MonoBehaviour
     public float minRotSpeed = 2.5f;
     public float maxRotSpeed = 25;
 
-    private float xSpeedChange;
+    private float movSpeedChange;
 
-    // Code not needed for the Assignment
-        /*
-        private float ySpeedChange;
-        private float rotSpeedChange;
-        */
-
+    private float[] xStartSpeeds;
     private GameObject[] gameObjArray;
 
     void Awake()
     {
-        xSpeedChange = xSpeedChange == 0 ? xSpeedChange / 0.1f : 0;
+        movSpeedChange = minMovSpeed / 10;
 
-        // Code not needed for the Assignment 
-            /*
-            ySpeedChange = ySpeedChange == 0 ? ySpeedChange / 0.1f : 0;
-            rotSpeedChange = rotSpeedChange == 0 ? rotSpeedChange / 0.1f : 0;
-            */
-
+        xStartSpeeds = new float[numberOfGameObjects];
         gameObjArray = new GameObject[numberOfGameObjects];
 
         // Add the components and updates their values.
@@ -55,39 +45,37 @@ public class GameController : MonoBehaviour
             trans.initialPosition = new Vector3(Random.Range(-posRange, posRange), Random.Range(-posRange, posRange), 0);
             trans.initialScale = new Vector3(Random.Range(minSize, maxSize), Random.Range(minSize, maxSize), 1);
             trans.xSpeed = Random.Range(minMovSpeed, maxMovSpeed);
-            trans.ySpeed = Random.Range(minMovSpeed, maxMovSpeed);
             trans.rotSpeed = Random.Range(minRotSpeed, maxRotSpeed);
 
             ColourLerp col = gameObjArray[i].GetComponent<ColourLerp>();
             col.colour00 = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255));
             col.colour01 = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255));
-           
+
+            xStartSpeeds[i] = trans.xSpeed;
         }
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            ChangeGameobjectMoveSpeed();
+            ChangeMoveSpeedOfAllObjects(true);
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
-            ChangeGameobjectMoveSpeed();
+            ChangeMoveSpeedOfAllObjects(false);
         }
     }
 
-    void ChangeGameobjectMoveSpeed()
+    void ChangeMoveSpeedOfAllObjects(bool increaseSpeed)
     {
-        foreach (GameObject obj in gameObjArray)
-        {
-            obj.GetComponent<IGB283Transform>().xSpeed += xSpeedChange;
 
-            // Code not needed for the Assignment 
-                /*
-                obj.GetComponent<IGB283Transform>().ySpeed += ySpeedChange;
-                obj.GetComponent<IGB283Transform>().rotSpeed += rotSpeedChange;
-                */
+        for(int i = 0; i < gameObjArray.Length; i++)
+        {
+            float speed = Mathf.Abs(gameObjArray[i].GetComponent<IGB283Transform>().xSpeed);
+            speed = increaseSpeed ? speed += xStartSpeeds[i] / 5: speed -= xStartSpeeds[i] / 5;
+            speed = Mathf.Clamp(speed, 0, xStartSpeeds[i] * 2);
+            gameObjArray[i].GetComponent<IGB283Transform>().xSpeed = gameObjArray[i].GetComponent<IGB283Transform>().xSpeed > 0 ? speed : -speed;
         }
     }
 
