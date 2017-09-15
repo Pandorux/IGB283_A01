@@ -36,6 +36,8 @@ public class IGB283Transform : MonoBehaviour {
         mesh.vertices = TranslateMesh(t, mesh.vertices);
 
         mesh.RecalculateBounds();
+
+        // Resets ySpeed to prevent gameobject from flying off screen
         ySpeed = 0;
     }
 

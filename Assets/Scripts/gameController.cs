@@ -20,8 +20,6 @@ public class GameController : MonoBehaviour
 
     private float movSpeedChange;
 
-	public GameObject dotPrefab;
-
     private GameObject[] gameObjArray;
     private float[] xStartSpeeds;
 
@@ -61,6 +59,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // Updates every moving gameobjects movement speed
     void ChangeMoveSpeedOfAllObjects(bool increaseSpeed)
     {
 
@@ -73,6 +72,7 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // Instantiates a moving gameobject
     GameObject InstantiateGameObject()
     {
         GameObject gameObj = new GameObject();
@@ -98,6 +98,7 @@ public class GameController : MonoBehaviour
         return gameObj;
     }
 
+    // Instantiates the object that controls the moving objects vertical height
     GameObject InstantiateControlObject(GameObject parent, Vector3 startPos)
     {
         GameObject controlObj = new GameObject();
@@ -108,7 +109,7 @@ public class GameController : MonoBehaviour
         gra.xSize = 3;
         gra.ySize = 3;
 
-        controlObj.GetComponent<Moveable>().thingo = parent;
+        controlObj.GetComponent<Moveable>().movingObject = parent;
 
         controlObj.transform.position = startPos;
         controlObj.transform.localScale = new Vector3(0.1f, 0.1f, 1);

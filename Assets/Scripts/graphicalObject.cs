@@ -31,7 +31,7 @@ public class GraphicalObject : MonoBehaviour {
 
     Vector3[] ConstructVecticeArray()
     {
-        List<Vector3>test = new List<Vector3>();
+        List<Vector3>verts = new List<Vector3>();
 
         // Ensures that the mesh can be centered properly
         int iMax = int.Equals(xSize % 2, 0) ? Mathf.CeilToInt(xSize / 2) : Mathf.CeilToInt(xSize / 2) + 1;
@@ -41,51 +41,32 @@ public class GraphicalObject : MonoBehaviour {
         {
             for(int j = -Mathf.CeilToInt(ySize / 2); j < jMax; j++)
             {
-                test.Add(new Vector3(i, j, 0));
-
-                // Debug.Log used to check a vert's location
-                //foreach (Vector3 element in test)
-                //{
-                //    Debug.Log(element);
-                //}
+                verts.Add(new Vector3(i, j, 0));
             }
         }
 
-        return test.ToArray();
+        return verts.ToArray();
     }
-
-    /* Following code is no longer needed except for debugging purposes
-
-        // Creates spheres on each location that a vertice will created in scene
-        //private void OnDrawGizmos()
-        //{
-        //    foreach(Vector3 element in ConstructVecticeArray())
-        //    {
-        //        Gizmos.DrawSphere(element, 0.1f);
-        //    }
-        //}
-
-    */
 
     // Creates faces based on the information in mesh.vertices
     int[] ConstructTriangles(int vertArrayLen)
     {
-        List<int> test = new List<int>();
+        List<int> tris = new List<int>();
 
         for(int i = 0, j = ySize; i < vertArrayLen - 1 && j < vertArrayLen - 1; i++, j++)
         {
             if((i + 1) % ySize != 0)
             {
-                test.Add(i);
-                test.Add(i + 1);
-                test.Add(i + ySize);
+                tris.Add(i);
+                tris.Add(i + 1);
+                tris.Add(i + ySize);
 
-                test.Add(i + 1);
-                test.Add(j + 1);
-                test.Add(j);
+                tris.Add(i + 1);
+                tris.Add(j + 1);
+                tris.Add(j);
             }
         }
 
-        return test.ToArray();
+        return tris.ToArray();
     }
 }

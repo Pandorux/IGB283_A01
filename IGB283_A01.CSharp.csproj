@@ -81,7 +81,6 @@
     <Compile Include="Assets\Scripts\IGB283Transform.cs" />
     <Compile Include="Assets\Scripts\Matrix3x3.cs" />
     <Compile Include="Assets\Scripts\Moveable.cs" />
-    <Compile Include="Assets\Scripts\VertDrag.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
