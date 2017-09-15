@@ -5,7 +5,7 @@ using UnityEngine;
 public class IGB283Transform : MonoBehaviour {
 
     public float rotSpeed = 1;
-    public float xSpeed = 1;
+    public float xSpeed = 1, ySpeed = 0;
     public Vector3 initialScale = new Vector3(0.1f, 0.1f, 1);
     public Vector3 initialPosition = new Vector3(0, 0, 0);
 
