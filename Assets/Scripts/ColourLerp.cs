@@ -20,7 +20,8 @@ public class ColourLerp : MonoBehaviour {
 
     public Color32 ColourStep(Vector3 meshCentre)
     {
-        return Color32.Lerp(colour00, colour01, Mathf.Clamp(meshCentre.x, -0.5f, 0.5f) * 2);
+        float step = Mathf.Clamp((meshCentre.x + 1) / 2, 0, 1);
+        return Color32.Lerp(colour00, colour01, step);
     }
 
     void UpdateColour(Vector3 meshCentre)

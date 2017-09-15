@@ -5,7 +5,7 @@ using UnityEngine;
 public class IGB283Transform : MonoBehaviour {
 
     public float rotSpeed = 1;
-    public float xSpeed = 1;
+    public float xSpeed = 1, ySpeed = 0;
     public Vector3 initialScale = new Vector3(0.1f, 0.1f, 1);
     public Vector3 initialPosition = new Vector3(0, 0, 0);
 
@@ -29,13 +29,14 @@ public class IGB283Transform : MonoBehaviour {
     {
 
         Vector3 rotOrigin = this.GetComponent<MeshRenderer>().bounds.center;
-        Matrix3x3 t = TransMatrix(new Vector3(xSpeed * Time.deltaTime, 0, 0));
+        Matrix3x3 t = TransMatrix(new Vector3(xSpeed * Time.deltaTime, ySpeed, 0));
         Matrix3x3 r = CalculateRotation(rotOrigin, rotSpeed);
 
         mesh.vertices = TranslateMesh(r, mesh.vertices);
         mesh.vertices = TranslateMesh(t, mesh.vertices);
 
         mesh.RecalculateBounds();
+        ySpeed = 0;
     }
 
     // Creates a Translational Matrix.
@@ -92,8 +93,8 @@ public class IGB283Transform : MonoBehaviour {
         {
             Vector3 v = trans.MultiplyPoint(verts[i]);
 
-            verts[i].x = v.x;
             verts[i].y = v.y;
+            verts[i].x = v.x;
 
             ChangeDirection(v.x, v.y);
         }
