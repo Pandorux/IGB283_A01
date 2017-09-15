@@ -43,6 +43,8 @@ public class GameController : MonoBehaviour
             GameObject obj01 = InstantiateControlObject(gameObjArray[i], new Vector3(-posRange, gameObjArray[i].GetComponent<IGB283Transform>().initialScale.y, 0));
             obj00.GetComponent<Moveable>().partner = obj01;
             obj01.GetComponent<Moveable>().partner = obj00;
+            obj00.GetComponent<Moveable>().count = i;
+            obj01.GetComponent<Moveable>().count = i;
 
         }
     }
@@ -98,7 +100,6 @@ public class GameController : MonoBehaviour
 
     GameObject InstantiateControlObject(GameObject parent, Vector3 startPos)
     {
-        //GameObject controlObj = Instantiate(dotPrefab, new Vector3(posRange, parent.transform.position.y, 0), Quaternion.identity);
         GameObject controlObj = new GameObject();
         controlObj.AddComponent<GraphicalObject>();
         controlObj.AddComponent<Moveable>();

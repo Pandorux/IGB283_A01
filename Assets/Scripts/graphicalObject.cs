@@ -9,7 +9,6 @@ public class GraphicalObject : MonoBehaviour {
     public int xSize = 5, ySize = 5;
 
     private Mesh mesh;
-    private Vector3 rotOrigin;
 
     void Start()
     {
@@ -27,6 +26,7 @@ public class GraphicalObject : MonoBehaviour {
 
         // References the elements of vertices and colors to create a face
         mesh.triangles = ConstructTriangles(mesh.vertices.Length);
+        mesh.RecalculateBounds();
     }
 
     Vector3[] ConstructVecticeArray()
